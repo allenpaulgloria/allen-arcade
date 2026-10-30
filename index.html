@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Tatay Fighting Crime: Manila Nights</title>
+  <title>Fat Guy Fighting Crime: Manila Nights</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
@@ -61,7 +61,7 @@
           </div>
           <div>
             <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">PNP Rank</div>
-            <div id="rankName" class="text-xs sm:text-sm font-black text-amber-400 leading-none">Patrolman</div>
+            <div id="rankName" class="text-xs sm:text-sm font-black text-amber-400 leading-none">Chubby Rookie</div>
           </div>
         </div>
 
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Shield Status Indicator -->
-        <button id="buyShieldBtn" class="hud-btn bg-sky-900/80 hover:bg-sky-800 border border-sky-400/50 px-2.5 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold text-sky-200" title="Buy Vest Shield (Blocks 1 Hit)">
+        <button id="buyShieldBtn" class="hud-btn bg-sky-900/80 hover:bg-sky-800 border border-sky-400/50 px-2.5 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold text-sky-200" title="Buy XXL Belly Vest (Blocks 1 Hit)">
           <span>🦺</span>
           <span id="shieldText">₱150</span>
         </button>
@@ -127,13 +127,13 @@
       <div id="overlayModal" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4 z-30">
         <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 text-center shadow-2xl">
           <div class="inline-block bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs font-extrabold px-3 py-0.5 rounded-full mb-2">
-            MANILA ARCADE EDITION
+            HEAVYWEIGHT ARCADE EDITION
           </div>
           <h1 id="modalTitle" class="arcade-font text-3xl sm:text-4xl text-white tracking-wider mb-1 drop-shadow">
-            TATAY FIGHTING CRIME
+            FAT GUY FIGHTING CRIME
           </h1>
           <p id="modalSubtitle" class="text-xs sm:text-sm text-slate-300 mb-4">
-            Hold the street line! Eliminate waves of criminals & mutant zombies before they land a single punch.
+            Hold the street line! Use your massive belly power and heavy firepower to stop waves of criminals & zombies before they interrupt snack time.
           </p>
 
           <!-- Stats Summary Box (Shown on Game Over) -->
@@ -148,7 +148,7 @@
             </div>
             <div>
               <div class="text-[10px] text-slate-400 uppercase font-bold">Highest Rank</div>
-              <div id="finalRank" class="text-xs font-black text-amber-400 mt-0.5">Patrolman</div>
+              <div id="finalRank" class="text-xs font-black text-amber-400 mt-0.5">Chubby Rookie</div>
             </div>
           </div>
 
@@ -406,23 +406,24 @@
     ];
 
     const RANKS = [
-      { id: 0, title: 'Patrolman', minKills: 0, icon: '👮' },
-      { id: 1, title: 'Corporal', minKills: 12, icon: ' chev' },
-      { id: 2, title: 'Sergeant', minKills: 30, icon: '🛡️' },
-      { id: 3, title: 'Captain', minKills: 60, icon: '🎖️' },
-      { id: 4, title: 'Colonel', minKills: 100, icon: '🦅' },
-      { id: 5, title: 'General', minKills: 160, icon: '⭐' },
-      { id: 6, title: 'Legend Tatay', minKills: 240, icon: '👑' }
+      { id: 0, title: 'Chubby Rookie', minKills: 0, icon: '🍩' },
+      { id: 1, title: 'Heavy Corporal', minKills: 12, icon: '🍔' },
+      { id: 2, title: 'Belly Sergeant', minKills: 30, icon: '🛡️' },
+      { id: 3, title: 'Chunky Captain', minKills: 60, icon: '🎖️' },
+      { id: 4, title: 'Thicc Colonel', minKills: 100, icon: '🍗' },
+      { id: 5, title: 'Sumo General', minKills: 160, icon: '⭐' },
+      { id: 6, title: 'Absolute Unit', minKills: 240, icon: '👑' }
     ];
 
     const SPEECH_QUOTES = [
-      'Bawal yan!',
-      'Stop! Putangina!',
-      'Obosen!',
-      'My Gad, I hate drugs!',
-      'Bang! Bang!',
-      'Cleanup time!',
-      'Walang atrasan!'
+      'Hold my sisig!',
+      'Don\'t interrupt snack time!',
+      'Belly power!',
+      'Extra rice energy!',
+      'Too heavy to move!',
+      'Where\'s the lechon?!',
+      'Heavyweight Justice!',
+      'Walang diet-diet!'
     ];
 
     /**************************************************************
@@ -451,15 +452,16 @@
     const player = {
       x: 110,
       y: 0, // calculated relative to road
-      width: 48,
-      height: 78,
-      speed: 4.5,
+      width: 76,
+      height: 82,
+      speed: 3.8,
       vx: 0,
       weaponIndex: 0,
       lastShotTime: 0,
       recoil: 0,
       muzzleFlash: 0,
       walkCycle: 0,
+      bellyJiggle: 0,
       hasShield: false,
       superCharge: 0, // 0 to 100
       superActiveTimer: 0, // frames remaining
@@ -515,7 +517,7 @@
             : 'bg-slate-900 border-slate-800 text-slate-600 opacity-50'
         }`;
         badgeEl.innerHTML = `
-          <div class="text-base">${r.id === 1 ? '🔰' : r.icon}</div>
+          <div class="text-base">${r.icon}</div>
           <div class="text-[9px] font-bold truncate w-full mt-0.5">${r.title.split(' ')[0]}</div>
         `;
         grid.appendChild(badgeEl);
@@ -564,7 +566,7 @@
 
       const r = RANKS[currentRankIndex];
       document.getElementById('rankName').textContent = r.title;
-      document.getElementById('rankIcon').textContent = r.id === 1 ? '🔰' : r.icon;
+      document.getElementById('rankIcon').textContent = r.icon;
 
       // Shield Button
       const shieldBtn = document.getElementById('buyShieldBtn');
@@ -629,8 +631,8 @@
         coins -= 150;
         player.hasShield = true;
         sfx.playCoin();
-        triggerSpeech('Ballistic Vest On!');
-        createFloatingText(player.x, player.y - 55, 'VEST SHIELD EQUIPPED!', '#38bdf8');
+        triggerSpeech('XXL Belly Vest On!');
+        createFloatingText(player.x, player.y - 55, 'XXL BELLY VEST EQUIPPED!', '#38bdf8');
         updateTopHud();
       } else {
         createFloatingText(player.x, player.y - 55, 'Need ₱150 for Vest!', '#f87171');
@@ -646,8 +648,8 @@
         player.superActiveTimer = 360; // 6 seconds at 60fps
         sfx.playSuper();
         screenShake = 12;
-        triggerSpeech('SUPER TATAY MODE!!');
-        createFloatingText(player.x + 20, player.y - 70, '🔥 OVERDRIVE BARRAGE! 🔥', '#facc15');
+        triggerSpeech('MAXIMUM BULK MODE!!');
+        createFloatingText(player.x + 20, player.y - 70, '🔥 HEAVYWEIGHT OVERDRIVE! 🔥', '#facc15');
         updateTopHud();
       } else if (coins >= 250) {
         coins -= 250;
@@ -655,7 +657,7 @@
         player.superActiveTimer = 360;
         sfx.playSuper();
         screenShake = 12;
-        triggerSpeech('BACKUP BARRAGE!!');
+        triggerSpeech('BELLY BARRAGE!!');
         updateTopHud();
       } else {
         createFloatingText(player.x, player.y - 55, 'Charge 100% or ₱250!', '#fbbf24');
@@ -791,8 +793,8 @@
         triggerSpeech(SPEECH_QUOTES[Math.floor(Math.random() * SPEECH_QUOTES.length)]);
       }
 
-      const gunTipX = player.x + 36;
-      const gunTipY = player.y - 38;
+      const gunTipX = player.x + 48;
+      const gunTipY = player.y - 40;
 
       const pellets = player.superActiveTimer > 0 ? Math.max(2, weapon.pellets) : weapon.pellets;
 
@@ -980,7 +982,7 @@
           continue;
         }
 
-        // Move Enemy Left toward Tatay
+        // Move Enemy Left toward Fat Guy
         e.x -= e.speed;
         e.walkPhase += 0.14;
         if (e.hitFlash > 0) e.hitFlash--;
@@ -988,10 +990,10 @@
         if (e.type === 'BOSS') activeBoss = e;
 
         // Check Enemy Reaching Player
-        const reachDist = player.x + 26;
+        const reachDist = player.x + 38;
         if (e.x - e.width / 2 <= reachDist) {
           if (player.superActiveTimer > 0) {
-            // Super mode knocks them back violently
+            // Super mode belly-bounces them back violently
             e.hp -= 120;
             e.x += 95;
             screenShake = 8;
@@ -1001,8 +1003,8 @@
             player.hasShield = false;
             screenShake = 14;
             sfx.playShoot(1);
-            triggerSpeech('Vest saved me!');
-            createFloatingText(player.x, player.y - 70, '🦺 VEST BROKEN!', '#38bdf8', 16);
+            triggerSpeech('Belly armor saved me!');
+            createFloatingText(player.x, player.y - 70, '🦺 XXL VEST BROKEN!', '#38bdf8', 16);
             // Push all close enemies back
             enemies.forEach(en => {
               if (en.x < player.x + 220) en.x += 160;
@@ -1159,7 +1161,7 @@
         ctx.restore();
       });
 
-      // 6. Draw Tatay Player
+      // 6. Draw Fat Guy Player
       drawPlayer();
 
       // 7. Draw Enemies
@@ -1209,133 +1211,189 @@
 
     function drawPlayer() {
       ctx.save();
-      const bob = Math.sin(player.walkCycle) * 3;
-      const rx = player.x - player.recoil;
-      const ry = player.y + bob;
+      const waddle = Math.sin(player.walkCycle) * 4;
+      const bellyBounce = Math.abs(Math.cos(player.walkCycle * 2)) * 3.5 + (player.recoil * 0.4);
+      const rx = player.x - player.recoil * 0.6; // Heavy guy absorbs recoil better!
+      const ry = player.y + waddle;
 
-      // Super Mode Golden Aura
+      // Ground Shadow under big frame
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.beginPath();
+      ctx.ellipse(rx + 2, player.y + 2, 34, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Super Mode Golden Heavyweight Aura
       if (player.superActiveTimer > 0) {
         ctx.save();
-        const grad = ctx.createRadialGradient(rx, ry - 40, 10, rx, ry - 40, 56);
-        grad.addColorStop(0, 'rgba(250, 204, 21, 0.7)');
+        const grad = ctx.createRadialGradient(rx + 4, ry - 42, 14, rx + 4, ry - 42, 72);
+        grad.addColorStop(0, 'rgba(250, 204, 21, 0.75)');
         grad.addColorStop(1, 'rgba(250, 204, 21, 0)');
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(rx, ry - 40, 56, 0, Math.PI * 2);
+        ctx.arc(rx + 4, ry - 42, 72, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
 
-      // Shield Bubble
+      // XXL Shield Bubble
       if (player.hasShield) {
         ctx.save();
         ctx.strokeStyle = 'rgba(56, 189, 248, 0.85)';
         ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
-        ctx.lineWidth = 2.5;
+        ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(rx, ry - 38, 46, 0, Math.PI * 2);
+        ctx.arc(rx + 4, ry - 40, 58, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
         ctx.restore();
       }
 
-      // Legs (Blue Jeans walking)
-      const legSwing = Math.sin(player.walkCycle) * 7;
-      ctx.fillStyle = '#1d4ed8';
-      ctx.fillRect(rx - 10 + legSwing, ry - 24, 9, 24);
-      ctx.fillRect(rx + 2 - legSwing, ry - 24, 9, 24);
-
-      // Boots
-      ctx.fillStyle = '#451a03';
-      ctx.fillRect(rx - 10 + legSwing, ry - 6, 12, 6);
-      ctx.fillRect(rx + 2 - legSwing, ry - 6, 12, 6);
-
-      // Torso (Signature Checkered Red/Blue Polo Barong)
-      ctx.fillStyle = '#b91c1c';
+      // Thick Stumpy Legs (Cargo Shorts / Jeans waddling)
+      const legSwing = Math.sin(player.walkCycle) * 6;
+      ctx.fillStyle = '#1e3a8a';
       ctx.beginPath();
-      ctx.roundRect(rx - 14, ry - 54, 28, 32, 5);
+      ctx.roundRect(rx - 18 + legSwing, ry - 24, 15, 22, 4);
+      ctx.roundRect(rx + 4 - legSwing, ry - 24, 15, 22, 4);
       ctx.fill();
 
-      // Plaid stripes on shirt
-      ctx.strokeStyle = '#1e3a8a';
-      ctx.lineWidth = 2;
+      // Heavy Boots / Tsinelas
+      ctx.fillStyle = '#451a03';
+      ctx.fillRect(rx - 19 + legSwing, ry - 6, 18, 6);
+      ctx.fillRect(rx + 3 - legSwing, ry - 6, 18, 6);
+
+      // Back Arm
+      ctx.fillStyle = '#d97706';
       ctx.beginPath();
-      ctx.moveTo(rx - 12, ry - 44);
-      ctx.lineTo(rx + 12, ry - 44);
-      ctx.moveTo(rx - 12, ry - 34);
-      ctx.lineTo(rx + 12, ry - 34);
-      ctx.moveTo(rx, ry - 54);
-      ctx.lineTo(rx, ry - 22);
+      ctx.roundRect(rx - 24, ry - 54, 14, 24, 6);
+      ctx.fill();
+
+      // Massive Round Torso & Protruding Belly
+      ctx.fillStyle = '#b91c1c'; // Tight stretched red polo shirt
+      ctx.beginPath();
+      ctx.ellipse(rx + 3, ry - 40 + bellyBounce * 0.3, 30, 24, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Stretched Plaid Stripes on Big Shirt
+      ctx.strokeStyle = '#1e3a8a';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(rx - 22, ry - 46 + bellyBounce * 0.2);
+      ctx.quadraticCurveTo(rx + 6, ry - 42 + bellyBounce * 0.4, rx + 31, ry - 45 + bellyBounce * 0.2);
+      ctx.moveTo(rx - 24, ry - 34 + bellyBounce * 0.3);
+      ctx.quadraticCurveTo(rx + 6, ry - 30 + bellyBounce * 0.5, rx + 32, ry - 34 + bellyBounce * 0.3);
       ctx.stroke();
 
-      // Head
-      ctx.fillStyle = '#d97706'; // warm tan skin tone
+      // Straining Shirt Buttons down the front of the belly
+      ctx.fillStyle = '#fef08a';
       ctx.beginPath();
-      ctx.arc(rx, ry - 66, 14, 0, Math.PI * 2);
+      ctx.arc(rx + 22, ry - 49 + bellyBounce * 0.2, 2, 0, Math.PI * 2);
+      ctx.arc(rx + 26, ry - 40 + bellyBounce * 0.3, 2, 0, Math.PI * 2);
+      ctx.arc(rx + 25, ry - 31 + bellyBounce * 0.3, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Peeking Under-Belly (Shirt riding up!) & Big Belt Buckle
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath();
+      ctx.ellipse(rx + 8, ry - 21 + bellyBounce * 0.4, 22, 6, 0, 0, Math.PI);
+      ctx.fill();
+
+      // Belly Button
+      ctx.fillStyle = '#92400e';
+      ctx.beginPath();
+      ctx.arc(rx + 18, ry - 20 + bellyBounce * 0.4, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Belt & Gold Buckle
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(rx - 20, ry - 20, 46, 4);
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(rx + 18, ry - 21, 8, 6);
+
+      // Double Chin & Chubby Cheeks Head
+      ctx.fillStyle = '#d97706'; // warm tan skin tone
+      // Double chin roll
+      ctx.beginPath();
+      ctx.ellipse(rx + 2, ry - 60, 18, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // Main wide head
+      ctx.beginPath();
+      ctx.arc(rx, ry - 69, 17, 0, Math.PI * 2);
+      ctx.fill();
+      // Rosy Chubby Cheek
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.35)';
+      ctx.beginPath();
+      ctx.arc(rx + 7, ry - 64, 5.5, 0, Math.PI * 2);
       ctx.fill();
 
       // Hair (Spiky Gold if Super Mode, Classic Dark/Grey otherwise)
       ctx.fillStyle = player.superActiveTimer > 0 ? '#facc15' : '#1f2937';
       ctx.beginPath();
-      ctx.arc(rx - 2, ry - 70, 14, Math.PI, Math.PI * 2.1);
+      ctx.arc(rx - 2, ry - 73, 17, Math.PI, Math.PI * 2.1);
       ctx.fill();
 
       // Aviator Sunglasses
       ctx.fillStyle = '#090d16';
-      ctx.fillRect(rx + 1, ry - 70, 12, 6);
+      ctx.fillRect(rx + 2, ry - 74, 15, 7);
       ctx.strokeStyle = '#fbbf24';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(rx + 1, ry - 70, 12, 6);
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(rx + 2, ry - 74, 15, 7);
 
-      // Determined Grimace Mouth
+      // Determined Big Grin / Grimace Mouth
       ctx.strokeStyle = '#451a03';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2.2;
       ctx.beginPath();
-      ctx.moveTo(rx + 3, ry - 58);
-      ctx.lineTo(rx + 10, ry - 58);
+      ctx.moveTo(rx + 4, ry - 61);
+      ctx.lineTo(rx + 13, ry - 61);
       ctx.stroke();
 
-      // Weapon Rendering based on equipped gun
+      // Beefy Forearm holding the gun
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath();
+      ctx.roundRect(rx + 4, ry - 46, 20, 11, 5);
+      ctx.fill();
+
+      // Weapon Rendering based on equipped gun (shifted forward for big belly)
       const wId = player.weaponIndex;
+      const gx = rx + 14;
       ctx.fillStyle = '#e2e8f0';
       if (wId === 0) {
         // Pistol
         ctx.fillStyle = '#475569';
-        ctx.fillRect(rx + 10, ry - 43, 18, 6);
-        ctx.fillRect(rx + 10, ry - 39, 5, 8);
+        ctx.fillRect(gx + 10, ry - 45, 18, 6);
+        ctx.fillRect(gx + 10, ry - 41, 5, 8);
       } else if (wId === 1) {
         // Shotgun
         ctx.fillStyle = '#78350f';
-        ctx.fillRect(rx + 4, ry - 42, 14, 6);
+        ctx.fillRect(gx + 4, ry - 44, 14, 6);
         ctx.fillStyle = '#334155';
-        ctx.fillRect(rx + 14, ry - 43, 24, 5);
+        ctx.fillRect(gx + 14, ry - 45, 24, 5);
       } else if (wId === 2) {
         // FN SCAR Rifle (Desert Tan)
         ctx.fillStyle = '#ca8a04';
-        ctx.fillRect(rx + 4, ry - 44, 28, 8);
+        ctx.fillRect(gx + 4, ry - 46, 28, 8);
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(rx + 30, ry - 42, 12, 4);
-        ctx.fillRect(rx + 16, ry - 36, 5, 9);
+        ctx.fillRect(gx + 30, ry - 44, 12, 4);
+        ctx.fillRect(gx + 16, ry - 38, 5, 9);
       } else if (wId === 3) {
         // Heavy Minigun
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(rx + 4, ry - 40, 22, 12);
+        ctx.fillRect(gx + 4, ry - 42, 22, 12);
         ctx.fillStyle = '#94a3b8';
-        ctx.fillRect(rx + 24, ry - 39, 22, 3);
-        ctx.fillRect(rx + 24, ry - 34, 22, 3);
+        ctx.fillRect(gx + 24, ry - 41, 22, 3);
+        ctx.fillRect(gx + 24, ry - 36, 22, 3);
       } else if (wId === 4) {
         // Plasma Cannon
         ctx.fillStyle = '#6b21a8';
-        ctx.fillRect(rx + 4, ry - 45, 34, 11);
+        ctx.fillRect(gx + 4, ry - 47, 34, 11);
         ctx.fillStyle = '#c084fc';
-        ctx.fillRect(rx + 14, ry - 42, 18, 5);
+        ctx.fillRect(gx + 14, ry - 44, 18, 5);
       }
 
       // Muzzle Flash
       if (player.muzzleFlash > 0) {
         ctx.fillStyle = player.superActiveTimer > 0 ? '#fef08a' : '#fb923c';
         ctx.beginPath();
-        ctx.arc(rx + 44, ry - 40, 9 + Math.random() * 6, 0, Math.PI * 2);
+        ctx.arc(gx + 44, ry - 42, 9 + Math.random() * 6, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -1345,7 +1403,7 @@
         ctx.font = 'bold 12px Inter, sans-serif';
         const textW = ctx.measureText(player.speechText).width + 16;
         const bx = rx - 10;
-        const by = ry - 110;
+        const by = ry - 116;
 
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = '#0f172a';
@@ -1494,7 +1552,7 @@
       player.hasShield = false;
       player.superCharge = 0;
       player.superActiveTimer = 0;
-      triggerSpeech('Walang atrasan!');
+      triggerSpeech('Walang diet-diet!');
 
       bullets.length = 0;
       enemies.length = 0;
@@ -1517,7 +1575,7 @@
 
       document.getElementById('modalTitle').textContent = 'OVERRUN ON THE STREET!';
       document.getElementById('modalSubtitle').textContent =
-        'A criminal broke through your perimeter! Upgrade your arsenal or equip a Ballistic Vest next patrol.';
+        'A criminal got past your belly defense! Upgrade your arsenal or equip an XXL Belly Vest next patrol.';
 
       document.getElementById('gameOverStats').classList.remove('hidden');
       document.getElementById('finalScore').textContent = score;
